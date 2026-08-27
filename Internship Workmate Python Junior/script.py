@@ -2,6 +2,12 @@ import argparse
 import csv
 from tabulate import tabulate
 
+AGGREGATIONS = {
+    "min": lambda nums: min(nums),
+    "max": lambda nums: max(nums),
+    "avg": lambda nums: sum(nums) / len(nums),
+}
+
 def parse_arguments() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser(
@@ -114,13 +120,15 @@ def main() -> None:
             print(f"Ошибка: колонка '{column}' содержит не числовые значения")
             return
 
-        if operation == "min":
-            result = min(numbers)
-        elif operation == "max":
-            result = max(numbers)
-        elif operation == "avg":
-            result = sum(numbers) / len(numbers)
+        # if operation == "min":
+        #     result = min(numbers)
+        # elif operation == "max":
+        #     result = max(numbers)
+        # elif operation == "avg":
+        #     result = sum(numbers) / len(numbers)
             
+        result = AGGREGATIONS[operation](numbers)
+
         print(f"Результат вычисления ({operation}) по колонке '{column}': {result}")
         return
 
